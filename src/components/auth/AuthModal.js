@@ -112,4 +112,151 @@ const AuthModal = ({ isOpen, onClose }) => {
             </motion.div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               {mode === 'signin' && 'Entrar na sua conta'}
-              {mode === 'signup' && '
+              {mode === 'signup' && 'Criar nova conta'}
+              {mode === 'forgot' && 'Recuperar senha'}
+            </h2>
+            <p className="text-gray-600">
+              {mode === 'signin' && 'Acesse sua conta para continuar criando'}
+              {mode === 'signup' && 'Crie sua conta gratuita em segundos'}
+              {mode === 'forgot' && 'Digite seu email para recuperar a senha'}
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {mode === 'signup' && (
+              <Input
+                label="Nome completo"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Seu nome"
+                required
+              />
+            )}
+
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              required
+            />
+
+            {mode !== 'forgot' && (
+              <Input
+                label="Senha"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Sua senha"
+                required
+              />
+            )}
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading}
+              loading={isLoading}
+            >
+              {mode === 'signin' && 'Entrar'}
+              {mode === 'signup' && 'Criar conta'}
+              {mode === 'forgot' && 'Enviar link'}
+            </Button>
+          </form>
+
+          {/* Magic Link */}
+          {mode === 'signin' && (
+            <div className="mt-4">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">ou</span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full mt-4"
+                onClick={handleMagicLink}
+                disabled={isLoading}
+              >
+                <svg className="mr-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Entrar com link mágico
+              </Button>
+            </div>
+          )}
+
+          {/* Footer Links */}
+          <div className="mt-6 text-center space-y-2">
+            {mode === 'signin' && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => switchMode('forgot')}
+                  className="text-sm text-purple-600 hover:text-purple-700 transition-colors"
+                >
+                  Esqueceu sua senha?
+                </button>
+                <div className="text-sm text-gray-600">
+                  Não tem uma conta?{' '}
+                  <button
+                    type="button"
+                    onClick={() => switchMode('signup')}
+                    className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                  >
+                    Criar conta gratuita
+                  </button>
+                </div>
+              </>
+            )}
+
+            {mode === 'signup' && (
+              <div className="text-sm text-gray-600">
+                Já tem uma conta?{' '}
+                <button
+                  type="button"
+                  onClick={() => switchMode('signin')}
+                  className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                >
+                  Entrar
+                </button>
+              </div>
+            )}
+
+            {mode === 'forgot' && (
+              <button
+                type="button"
+                onClick={() => switchMode('signin')}
+                className="text-sm text-purple-600 hover:text-purple-700 transition-colors"
+              >
+                Voltar para login
+              </button>
+            )}
+          </div>
+
+          {/* Terms */}
+          <div className="mt-6 text-xs text-gray-500 text-center">
+            Ao continuar, você concorda com nossos{' '}
+            <a href="#" className="text-purple-600 hover:underline">
+              Termos de Uso
+            </a>{' '}
+            e{' '}
+            <a href="#" className="text-purple-600 hover:underline">
+              Política de Privacidade
+            </a>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+export default AuthModal
